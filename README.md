@@ -1,15 +1,16 @@
-# is-my-json-valid
+[ ![Codeship Status for weo-edu/validate](https://codeship.com/projects/c3283030-dff3-0132-e34e-4a4681aa8cab/status?branch=master)](https://codeship.com/projects/80692) [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+# Validate
 
 A [JSONSchema](http://json-schema.org/) validator that uses code generation
 to be extremely fast
 
 ```
-npm install is-my-json-valid
+npm install @weo-edu/validate
 ```
 
 It passes the entire JSONSchema v4 test suite except for `remoteRefs` and `maxLength`/`minLength` when using unicode surrogate pairs.
 
-[![build status](http://img.shields.io/travis/mafintosh/is-my-json-valid.svg?style=flat)](http://travis-ci.org/mafintosh/is-my-json-valid)
 
 ## Usage
 
