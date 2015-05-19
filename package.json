@@ -1,5 +1,5 @@
 {
-  "name": "is-my-json-valid",
+  "name": "@weo-edu/validate",
   "version": "2.12.0",
   "description": "A JSONSchema validator that uses code generation to be extremely fast",
   "main": "index.js",
@@ -33,5 +33,9 @@
   "bugs": {
     "url": "https://github.com/mafintosh/is-my-json-valid/issues"
   },
-  "homepage": "https://github.com/mafintosh/is-my-json-valid"
+  "homepage": "https://github.com/mafintosh/is-my-json-valid",
+  "engines": {
+    "node": "~0.10.38",
+    "npm": "~2.9.0"
+  }
 }
