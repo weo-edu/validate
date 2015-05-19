@@ -14,17 +14,17 @@ tape('simple', function(t) {
 
   var validate = validator(schema)
 
-  t.ok(validate({hello: 'world'}), 'should be valid')
-  t.notOk(validate(), 'should be invalid')
-  t.notOk(validate({}), 'should be invalid')
+  t.ok(validate({hello: 'world'}).valid, 'should be valid')
+  t.notOk(validate().valid, 'should be invalid')
+  t.notOk(validate({}).valid, 'should be invalid')
   t.end()
 })
 
 tape('advanced', function(t) {
   var validate = validator(cosmic.schema)
 
-  t.ok(validate(cosmic.valid), 'should be valid')
-  t.notOk(validate(cosmic.invalid), 'should be invalid')
+  t.ok(validate(cosmic.valid).valid, 'should be valid')
+  t.notOk(validate(cosmic.invalid).valid, 'should be invalid')
   t.end()
 })
 
@@ -38,19 +38,19 @@ tape('greedy/false', function(t) {
     },
     required: ['x', 'y']
   });
-  t.notOk(validate({}), 'should be invalid')
+  t.notOk(validate({}).valid, 'should be invalid')
   t.strictEqual(validate.errors.length, 2);
-  t.strictEqual(validate.errors[0].field, 'data.x')
+  t.strictEqual(validate.errors[0].field, 'x')
   t.strictEqual(validate.errors[0].message, 'is required')
-  t.strictEqual(validate.errors[1].field, 'data.y')
+  t.strictEqual(validate.errors[1].field, 'y')
   t.strictEqual(validate.errors[1].message, 'is required')
-  t.notOk(validate({x: 'string'}), 'should be invalid')
+  t.notOk(validate({x: 'string'}).valid, 'should be invalid')
   t.strictEqual(validate.errors.length, 1);
-  t.strictEqual(validate.errors[0].field, 'data.y')
+  t.strictEqual(validate.errors[0].field, 'y')
   t.strictEqual(validate.errors[0].message, 'is required')
-  t.notOk(validate({x: 'string', y: 'value'}), 'should be invalid')
+  t.notOk(validate({x: 'string', y: 'value'}).valid, 'should be invalid')
   t.strictEqual(validate.errors.length, 1);
-  t.strictEqual(validate.errors[0].field, 'data.x')
+  t.strictEqual(validate.errors[0].field, 'x')
   t.strictEqual(validate.errors[0].message, 'is the wrong type')
   t.end();
 });
@@ -67,23 +67,23 @@ tape('greedy/true', function(t) {
   }, {
     greedy: true
   });
-  t.notOk(validate({}), 'should be invalid')
+  t.notOk(validate({}).valid, 'should be invalid')
   t.strictEqual(validate.errors.length, 2);
-  t.strictEqual(validate.errors[0].field, 'data.x')
+  t.strictEqual(validate.errors[0].field, 'x')
   t.strictEqual(validate.errors[0].message, 'is required')
-  t.strictEqual(validate.errors[1].field, 'data.y')
+  t.strictEqual(validate.errors[1].field, 'y')
   t.strictEqual(validate.errors[1].message, 'is required')
-  t.notOk(validate({x: 'string'}), 'should be invalid')
+  t.notOk(validate({x: 'string'}).valid, 'should be invalid')
   t.strictEqual(validate.errors.length, 2);
-  t.strictEqual(validate.errors[0].field, 'data.y')
+  t.strictEqual(validate.errors[0].field, 'y')
   t.strictEqual(validate.errors[0].message, 'is required')
-  t.strictEqual(validate.errors[1].field, 'data.x')
+  t.strictEqual(validate.errors[1].field, 'x')
   t.strictEqual(validate.errors[1].message, 'is the wrong type')
-  t.notOk(validate({x: 'string', y: 'value'}), 'should be invalid')
+  t.notOk(validate({x: 'string', y: 'value'}).valid, 'should be invalid')
   t.strictEqual(validate.errors.length, 1);
-  t.strictEqual(validate.errors[0].field, 'data.x')
+  t.strictEqual(validate.errors[0].field, 'x')
   t.strictEqual(validate.errors[0].message, 'is the wrong type')
-  t.ok(validate({x: 1, y: 'value'}), 'should be invalid')
+  t.ok(validate({x: 1, y: 'value'}).valid, 'should be invalid')
   t.end();
 });
 
@@ -95,9 +95,9 @@ tape('additional props', function(t) {
     verbose: true
   })
 
-  t.ok(validate({}))
-  t.notOk(validate({foo:'bar'}))
-  t.ok(validate.errors[0].value === 'data.foo', 'should output the property not allowed in verbose mode')
+  t.ok(validate({}).valid)
+  t.notOk(validate({foo:'bar'}).valid)
+  t.ok(validate.errors[0].value === 'foo', 'should output the property not allowed in verbose mode')
   t.end()
 })
 
@@ -110,9 +110,9 @@ tape('array', function(t) {
     }
   })
 
-  t.notOk(validate({}), 'wrong type')
-  t.notOk(validate(), 'is required')
-  t.ok(validate(['test']))
+  t.notOk(validate({}).valid, 'wrong type')
+  t.notOk(validate().valid, 'is required')
+  t.ok(validate(['test']).valid)
   t.end()
 })
 
@@ -130,9 +130,9 @@ tape('nested array', function(t) {
     }
   })
 
-  t.notOk(validate({}), 'is required')
-  t.ok(validate({list:['test']}))
-  t.notOk(validate({list:[1]}))
+  t.notOk(validate({}).valid, 'is required')
+  t.ok(validate({list:['test']}).valid)
+  t.notOk(validate({list:[1]}).valid)
   t.end()
 })
 
@@ -148,9 +148,9 @@ tape('enum', function(t) {
     }
   })
 
-  t.notOk(validate({}), 'is required')
-  t.ok(validate({foo:42}))
-  t.notOk(validate({foo:43}))
+  t.notOk(validate({}).valid, 'is required')
+  t.ok(validate({foo:42}).valid)
+  t.notOk(validate({foo:43}).valid)
   t.end()
 })
 
@@ -166,9 +166,9 @@ tape('minimum/maximum', function(t) {
     }
   })
 
-  t.notOk(validate({foo:-42}))
-  t.ok(validate({foo:0}))
-  t.notOk(validate({foo:42}))
+  t.notOk(validate({foo:-42}).valid)
+  t.ok(validate({foo:0}).valid)
+  t.notOk(validate({foo:42}).valid)
   t.end()
 })
 
@@ -186,10 +186,10 @@ tape('exclusiveMinimum/exclusiveMaximum', function(t) {
     }
   })
 
-  t.notOk(validate({foo:10}))
-  t.ok(validate({foo:11}))
-  t.notOk(validate({foo:20}))
-  t.ok(validate({foo:19}))
+  t.notOk(validate({foo:10}).valid)
+  t.ok(validate({foo:11}).valid)
+  t.notOk(validate({foo:20}).valid)
+  t.ok(validate({foo:19}).valid)
   t.end()
 })
 
@@ -204,11 +204,11 @@ tape('custom format', function(t) {
     }
   }, {formats: {as:/^a+$/}})
 
-  t.notOk(validate({foo:''}), 'not as')
-  t.notOk(validate({foo:'b'}), 'not as')
-  t.notOk(validate({foo:'aaab'}), 'not as')
-  t.ok(validate({foo:'a'}), 'as')
-  t.ok(validate({foo:'aaaaaa'}), 'as')
+  t.notOk(validate({foo:''}).valid, 'not as')
+  t.notOk(validate({foo:'b'}).valid, 'not as')
+  t.notOk(validate({foo:'aaab'}).valid, 'not as')
+  t.ok(validate({foo:'a'}).valid, 'as')
+  t.ok(validate({foo:'aaaaaa'}).valid, 'as')
   t.end()
 })
 
@@ -223,11 +223,11 @@ tape('custom format function', function(t) {
     }
   }, {formats: {as:function(s) { return /^a+$/.test(s) } }})
 
-  t.notOk(validate({foo:''}), 'not as')
-  t.notOk(validate({foo:'b'}), 'not as')
-  t.notOk(validate({foo:'aaab'}), 'not as')
-  t.ok(validate({foo:'a'}), 'as')
-  t.ok(validate({foo:'aaaaaa'}), 'as')
+  t.notOk(validate({foo:''}).valid, 'not as')
+  t.notOk(validate({foo:'b'}).valid, 'not as')
+  t.notOk(validate({foo:'aaab'}).valid, 'not as')
+  t.ok(validate({foo:'a'}).valid, 'as')
+  t.ok(validate({foo:'aaaaaa'}).valid, 'as')
   t.end()
 })
 
@@ -273,8 +273,8 @@ tape('external schemas', function(t) {
 
   var validate = validator(schema, {schemas: {ext:ext}})
 
-  t.ok(validate('hello string'), 'is a string')
-  t.notOk(validate(42), 'not a string')
+  t.ok(validate('hello string').valid, 'is a string')
+  t.notOk(validate(42).valid, 'not a string')
   t.end()
 })
 
@@ -302,9 +302,9 @@ tape('top-level external schema', function(t) {
       "definitions.json": defs
     }
   })
-  t.ok(validate({name:"alice", sex:"female"}), 'is an object')
-  t.notOk(validate({name:"alice", sex: "bob"}), 'recognizes external schema')
-  t.notOk(validate({name:2, sex: "female"}), 'recognizes external schema')
+  t.ok(validate({name:"alice", sex:"female"}).valid, 'is an object')
+  t.notOk(validate({name:"alice", sex: "bob"}).valid, 'recognizes external schema')
+  t.notOk(validate({name:2, sex: "female"}).valid, 'recognizes external schema')
   t.end()
 })
 
@@ -331,9 +331,9 @@ tape('nested required array decl', function(t) {
 
   var validate = validator(schema)
 
-  t.ok(validate({x: {}}), 'should be valid')
-  t.notOk(validate({}), 'should not be valid')
-  t.strictEqual(validate.errors[0].field, 'data.x', 'should output the missing field')
+  t.ok(validate({x: {}}).valid, 'should be valid')
+  t.notOk(validate({}).valid, 'should not be valid')
+  t.strictEqual(validate.errors[0].field, 'x', 'should output the missing field')
   t.end()
 })
 
@@ -351,8 +351,8 @@ tape('verbose mode', function(t) {
 
   var validate = validator(schema, {verbose: true})
 
-  t.ok(validate({hello: 'string'}), 'should be valid')
-  t.notOk(validate({hello: 100}), 'should not be valid')
+  t.ok(validate({hello: 'string'}).valid, 'should be valid')
+  t.notOk(validate({hello: 100}).valid, 'should not be valid')
   t.strictEqual(validate.errors[0].value, 100, 'error object should contain the invalid value')
   t.end()
 })
@@ -383,7 +383,8 @@ tape('additional props in verbose mode', function(t) {
 
   validate({'hello world': {bar: 'string'}});
 
-  t.strictEqual(validate.errors[0].value, 'data["hello world"].bar', 'should output the path to the additional prop in the error')
+  t.strictEqual(validate.errors[0].field, '["hello world"]')
+  t.strictEqual(validate.errors[0].value, '["hello world"].bar', 'should output the path to the additional prop in the error')
   t.end()
 })
 
@@ -391,7 +392,7 @@ tape('Date.now() is an integer', function(t) {
   var schema = {type: 'integer'}
   var validate = validator(schema)
 
-  t.ok(validate(Date.now()), 'is integer')
+  t.ok(validate(Date.now()).valid, 'is integer')
   t.end()
 })
 
@@ -424,6 +425,69 @@ tape('field shows item index in arrays', function(t) {
     ]
   ])
 
-  t.strictEqual(validate.errors[0].field, 'data.1.1.foo', 'should output the field with specific index of failing item in the error')
+  t.strictEqual(validate.errors[0].field, '1.1.foo', 'should output the field with specific index of failing item in the error')
   t.end()
 })
+
+tape('error messages', function(t) {
+  var schema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string',
+        required: true
+      }
+    }
+  }
+
+  var validate = validator(schema)
+
+  validate({bar: 'test'})
+
+  t.strictEqual(validate.errors[0].field, 'foo', 'should include field')
+  t.strictEqual(validate.errors[0].code, 'required', 'should include code')
+  t.strictEqual(validate.errors[0].message, 'is required', 'should include message')
+  t.end()
+})
+
+tape('error format message', function(t) {
+  var schema = {
+    type: 'string',
+    format: 'email'
+  }
+
+  var validate = validator(schema)
+
+  validate('foo')
+
+  t.strictEqual(validate.errors[0].field, '', 'should include field')
+  t.strictEqual(validate.errors[0].code, 'format', 'should include code')
+  t.strictEqual(validate.errors[0].message, 'must be email format', 'should include message')
+  t.end()
+})
+
+tape('customizable error messages', function(t) {
+  var schema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string',
+        required: true,
+        messages: {
+          required: 'requires foo'
+        }
+      }
+    }
+  }
+
+  var validate = validator(schema)
+
+  validate({bar: 'test'})
+
+  t.strictEqual(validate.errors[0].field, 'foo', 'should include field')
+  t.strictEqual(validate.errors[0].code, 'required', 'should include code')
+  t.strictEqual(validate.errors[0].message, 'requires foo', 'should use custom')
+  t.end()
+})
+
+

@@ -66,8 +66,8 @@ var validate = validator({
   }
 })
 
-console.log(validate('aa')) // true
-console.log(validate('ab')) // false
+console.log(validate('aa').valid) // true
+console.log(validate('ab').valid) // false
 ```
 
 ## External schemas
@@ -87,8 +87,8 @@ var schema = {
 // pass the external schemas as an option
 var validate = validate(schema, {schemas: {ext: ext}})
 
-validate('hello') // returns true
-validate(42) // return false
+validate('hello').valid // returns true
+validate(42).valid // return false
 ```
 
 ## Filtering away additional properties
@@ -127,8 +127,8 @@ var validate = validator({
   verbose: true
 })
 
-validate({hello: 100});
-console.log(validate.errors) // {field: 'data.hello', message: 'is the wrong type', value: 100}
+validate({hello: 100}).errors
+// {field: 'data.hello', message: 'is the wrong type', value: 100, code: 'type'}
 ```
 
 ## Greedy mode tries to validate as much as possible
@@ -149,9 +149,9 @@ var validate = validator({
   greedy: true
 });
 
-validate({x: 'string'});
-console.log(validate.errors) // [{field: 'data.y', message: 'is required'},
-                             //  {field: 'data.x', message: 'is the wrong type'}]
+validate({x: 'string'}).errors;
+// [{field: 'data.y', message: 'is required', code: 'required'},
+//  {field: 'data.x', message: 'is the wrong type', code: 'type'}]
 ```
 
 ## Performance

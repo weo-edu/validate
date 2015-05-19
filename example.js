@@ -10,8 +10,8 @@ var validate = validator({
   }
 })
 
-console.log('should be valid', validate({hello: 'world'}))
-console.log('should not be valid', validate({}))
+console.log('should be valid', validate({hello: 'world'}).valid)
+console.log('should not be valid', validate({}).valid)
 
 // get the last error message by checking validate.error
 // the following will print "data.hello is required"
