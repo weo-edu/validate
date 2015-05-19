@@ -32,25 +32,31 @@ var validate = validator({
   }
 })
 
-console.log('should be valid', validate({hello: 'world'}))
-console.log('should not be valid', validate({}))
+console.log('should be valid', validate({hello: 'world'}).valid)
+console.log('should not be valid', validate({}).valid)
 
 // get the last list of errors by checking validate.errors
-// the following will print [{field: 'data.hello', message: 'is required'}]
+// the following will print [{field: 'hello', message: 'is required', code: 'required'}]
 console.log(validate.errors)
 ```
 
-You can also pass the schema as a string
+## Custome error messages
 
-``` js
-var validate = validate('{"type": ... }')
-```
+Validate adds custom error messages to is-my-json-valid.
 
-Optionally you can use the require submodule to load a schema from `__dirname`
+```js
+var validate = validator({
+  type: 'string',
+  required: true,
+  messages: {
+    required: 'this string is required foo'
+  }
+})
 
-``` js
-var validator = require('is-my-json-valid/require')
-var validate = validator('my-schema.json')
+
+validate()
+// {valid: false, errors: [code: 'required', field: '', message: 'this string is required foo']}
+
 ```
 
 ## Custom formats
@@ -131,7 +137,7 @@ var validate = validator({
 })
 
 validate({hello: 100}).errors
-// {field: 'data.hello', message: 'is the wrong type', value: 100, code: 'type'}
+// {field: 'hello', message: 'is the wrong type', value: 100, code: 'type'}
 ```
 
 ## Greedy mode tries to validate as much as possible
@@ -153,9 +159,11 @@ var validate = validator({
 });
 
 validate({x: 'string'}).errors;
-// [{field: 'data.y', message: 'is required', code: 'required'},
-//  {field: 'data.x', message: 'is the wrong type', code: 'type'}]
+// [{field: 'y', message: 'is required', code: 'required'},
+//  {field: 'x', message: 'is the wrong type', code: 'type'}]
 ```
+
+
 
 ## Performance
 
