@@ -551,7 +551,7 @@ var compile = function (schema, cache, root, reporter, opts) {
 
   /*eslint-disable*/
   validate
-    ('return {valid: errors === 0}')
+    ('return {valid: errors === 0, errors: validate.errors}')
     ('}')
   /*eslint-enable*/
 
