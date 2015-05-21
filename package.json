@@ -1,6 +1,6 @@
 {
   "name": "@weo-edu/validate",
-  "version": "2.12.1",
+  "version": "2.12.2",
   "description": "A JSONSchema validator that uses code generation to be extremely fast",
   "main": "index.js",
   "dependencies": {
