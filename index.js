@@ -7,8 +7,7 @@ var errors = require('./errors')
 
 var get = function (obj, additionalSchemas, ptr) {
   if (/^https?:\/\//.test(ptr)) return null
-  if (obj.toJSON) obj = obj.toJSON()
-  
+
   var visit = function (sub) {
     if (sub && sub.id === ptr) return sub
     if (typeof sub !== 'object' || !sub) return null
@@ -577,6 +576,7 @@ var compile = function (schema, cache, root, reporter, opts) {
 
 module.exports = function (schema, opts) {
   if (typeof schema === 'string') schema = JSON.parse(schema)
+  else if (schema.toJSON) schema = schema.toJSON()
   return compile(schema, {}, schema, true, opts)
 }
 
