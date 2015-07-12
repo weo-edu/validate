@@ -1,8 +1,7 @@
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
-
-[ ![Codeship Status for weo-edu/validate](https://codeship.com/projects/c3283030-dff3-0132-e34e-4a4681aa8cab/status?branch=master)](https://codeship.com/projects/80692) 
-
 # Validate
+
+[ ![Codeship Status for weo-edu/color](https://img.shields.io/codeship/c3283030-dff3-0132-e34e-4a4681aa8cab/master.svg)](https://codeship.com/projects/80692) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
+
 
 A [JSONSchema](http://json-schema.org/) validator that uses code generation
 to be extremely fast
