@@ -1,4 +1,3 @@
-var is = require('is')
 var compile = require('string-template/compile')
 
 var errors = exports
@@ -31,7 +30,7 @@ exports.messages = {
 exports.message = function (code, node) {
   var msgFn = (node.messages && node.messages[code]) || errors.messages[code]
 
-  if (is.string(msgFn)) {
+  if (typeof msgFn === 'string') {
     var msg = msgFn
     try {
       msgFn = compile(msg)
