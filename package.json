@@ -32,9 +32,5 @@
   "bugs": {
     "url": "https://github.com/mafintosh/is-my-json-valid/issues"
   },
-  "homepage": "https://github.com/mafintosh/is-my-json-valid",
-  "engines": {
-    "node": "~0.10.38",
-    "npm": "~2.9.0"
-  }
+  "homepage": "https://github.com/mafintosh/is-my-json-valid"
 }
